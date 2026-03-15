@@ -10,12 +10,12 @@ namespace Universitetssystem
         public int StudiePoeng { get; set; }
         public int AntallPlasser { get; set; }
 
-        public Kurs()
+        public Kurs(string kursKode, string kursNavn, int studiePoeng, int antallPlasser)
         {
-            KursKode = KursKode;
-            KursNavn = KursNavn;
-            StudiePoeng = StudiePoeng;
-            AntallPlasser = AntallPlasser;
+            KursKode = kursKode;
+            KursNavn = kursNavn;
+            StudiePoeng = studiePoeng;
+            AntallPlasser = antallPlasser;
         }
     }
 }

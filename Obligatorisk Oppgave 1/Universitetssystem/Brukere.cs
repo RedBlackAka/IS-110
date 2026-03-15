@@ -13,12 +13,12 @@ namespace Universitetssystem
         public string Email { get; set;}
         public string PåmeldteKurs { get; set; }
 
-        public Student()
+        public Bruker(string navn, int id, string email, string påmeldteKurs)
         {
-            Navn = Navn;
+            Navn = navn;
             ID = ID;
-            Email = Email;
-            PåmeldteKurs = PåmeldteKurs;
+            Email = email;
+            PåmeldteKurs = påmeldteKurs;
         }
     }
 }
