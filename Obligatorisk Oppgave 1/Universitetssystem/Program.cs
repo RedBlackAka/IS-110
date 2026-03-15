@@ -14,3 +14,14 @@ Console.WriteLine("Bibliotek: 3");
 
 string input = Console.ReadLine();
 
+try
+{
+    if (input == "3")
+    {
+        Console.WriteLine("OK!");
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Ugyldig input");
+}
