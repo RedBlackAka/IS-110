@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/petereikenes/Documents/GitHub/IS-110/Universitetssystem/Universitetssystem.csproj": {}
+    "/Users/petereikenes/Documents/GitHub/IS-110/Obligatorisk Oppgave 1/Universitetssystem/Universitetssystem.csproj": {}
   },
   "projects": {
-    "/Users/petereikenes/Documents/GitHub/IS-110/Universitetssystem/Universitetssystem.csproj": {
+    "/Users/petereikenes/Documents/GitHub/IS-110/Obligatorisk Oppgave 1/Universitetssystem/Universitetssystem.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/petereikenes/Documents/GitHub/IS-110/Universitetssystem/Universitetssystem.csproj",
+        "projectUniqueName": "/Users/petereikenes/Documents/GitHub/IS-110/Obligatorisk Oppgave 1/Universitetssystem/Universitetssystem.csproj",
         "projectName": "Universitetssystem",
-        "projectPath": "/Users/petereikenes/Documents/GitHub/IS-110/Universitetssystem/Universitetssystem.csproj",
+        "projectPath": "/Users/petereikenes/Documents/GitHub/IS-110/Obligatorisk Oppgave 1/Universitetssystem/Universitetssystem.csproj",
         "packagesPath": "/Users/petereikenes/.nuget/packages/",
-        "outputPath": "/Users/petereikenes/Documents/GitHub/IS-110/Universitetssystem/obj/",
+        "outputPath": "/Users/petereikenes/Documents/GitHub/IS-110/Obligatorisk Oppgave 1/Universitetssystem/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/petereikenes/.nuget/NuGet/NuGet.Config"
