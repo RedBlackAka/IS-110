@@ -25,10 +25,11 @@ namespace Universitetssystem
         public int StudentId { get; set; }
         public List<string> PameldteKursKoder { get; } = new();
 
-        public Student(int studentId, string navn, string email)
+        public Student(int studentId, string navn, string email, List<string> pameldteKursKoder)
             : base(navn, email)
         {
             StudentId = studentId;
+            PameldteKursKoder = pameldteKursKoder;
         }
 
         public override string HentID()
@@ -47,10 +48,11 @@ namespace Universitetssystem
             int studentId,
             string navn,
             string email,
+            List<string> pameldteKursKoder,
             string hjemuniversitet,
             string land,
             string periode)
-            : base(studentId, navn, email)
+            : base(studentId, navn, email, pameldteKursKoder)
         {
             Hjemuniversitet = hjemuniversitet;
             Land = land;

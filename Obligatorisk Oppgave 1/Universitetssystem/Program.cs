@@ -77,12 +77,13 @@ internal class Program
 
     private static void InitialiserData()
     {
-        Studenter.Add(new Student(1001, "Ola N", "ola@uia.no"));
-        Studenter.Add(new Student(1002, "Kari H", "kari@uia.no"));
+        Studenter.Add(new Student(1001, "Ola N", "ola@uia.no", ["IS-110"]));
+        Studenter.Add(new Student(1002, "Kari H", "kari@uia.no", ["IS-110"]));
         Studenter.Add(new Utvekslingsstudent(
             1100,
             "Rianne L",
             "rianne@uia.no",
+            ["EN-168"],
             "Universite d'Orleans",
             "Frankrike",
             "2024 - 2025"));
@@ -122,7 +123,6 @@ internal class Program
     {
         Console.WriteLine("[1] Meld ny student til kurs");
         Console.WriteLine("[2] Meld student av kurs");
-        Console.WriteLine("Valg (eller skriv StudentID direkte): ");
         string? valg = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(valg) || valg == "1")
@@ -134,12 +134,6 @@ internal class Program
         if (valg == "2")
         {
             MeldStudentAvKurs();
-            return;
-        }
-
-        if (int.TryParse(valg, out int studentIdFraDirekteInput))
-        {
-            MeldStudentTilKurs(studentIdFraDirekteInput);
             return;
         }
 
@@ -155,13 +149,14 @@ internal class Program
 
         Console.WriteLine("Navn: ");
         string navnInput = Console.ReadLine() ?? string.Empty;
-        Console.WriteLine("E-mail: ");
+        Console.WriteLine("Email: ");
         string emailInput = Console.ReadLine() ?? string.Empty;
+        List<string> pameldteKursKoder = null;
 
         Student student;
         if (eksisterendeStudent is null)
         {
-            student = new Student(studentId, navnInput, emailInput);
+            student = new Student(studentId, navnInput, emailInput, pameldteKursKoder);
         }
         else
         {
