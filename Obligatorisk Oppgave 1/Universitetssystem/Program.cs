@@ -77,13 +77,13 @@ internal class Program
 
     private static void InitialiserData()
     {
-        Studenter.Add(new Student(1001, "Ola N", "ola@uia.no", ["IS-110"]));
-        Studenter.Add(new Student(1002, "Kari H", "kari@uia.no", ["IS-110"]));
+        Studenter.Add(new Student(1001, "Ola N", "ola@uia.no", new List<string> { "IS-110" }));
+        Studenter.Add(new Student(1002, "Kari H", "kari@uia.no", new List<string> { "IS-110" }));
         Studenter.Add(new Utvekslingsstudent(
             1100,
             "Rianne L",
             "rianne@uia.no",
-            ["EN-168"],
+            new List<string> { "EN-168" },
             "Universite d'Orleans",
             "Frankrike",
             "2024 - 2025"));
@@ -151,7 +151,7 @@ internal class Program
         string navnInput = Console.ReadLine() ?? string.Empty;
         Console.WriteLine("Email: ");
         string emailInput = Console.ReadLine() ?? string.Empty;
-        List<string> pameldteKursKoder = null;
+        List<string> pameldteKursKoder = new List<string>();
 
         Student student;
         if (eksisterendeStudent is null)
