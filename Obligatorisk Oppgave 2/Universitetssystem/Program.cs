@@ -10,7 +10,6 @@ internal class Program
     private static readonly List<Ansatt> Ansatte = new();
     private static readonly List<Kurs> KursListe = new();
     private static readonly BibliotekService Bibliotek = new();
-    private static readonly UniversitetService Universitet = new(KursListe);
 
     private static int _nesteStudentId = 2000;
     private static int _nesteAnsattId = 700;
@@ -24,9 +23,9 @@ internal class Program
         {
             try
             {
-                Console.WriteLine("Velg brukerstatus:");
+                Console.WriteLine("Velkommen til UiA's Universitetssystem (USS). Velg et alternativ for å logge inn:");
                 Console.WriteLine("[1] Eksisterende bruker");
-                Console.WriteLine("[2] Ny bruker (registrer)");
+                Console.WriteLine("[2] Ny bruker");
                 Console.WriteLine("[0] Avslutt");
                 string? valg = Console.ReadLine();
 
@@ -89,12 +88,12 @@ internal class Program
         Ansatte.Add(new Ansatt(502, "Espen L", "espen@uia.no", "espen123", BrukerRolle.Professor, "Informasjonssystemer"));
         Ansatte.Add(new Ansatt(601, "Bente B", "bente@uia.no", "bente123", BrukerRolle.Bibliotekar, "Bibliotek"));
 
-        Universitet.OpprettKurs("EN-168", "Engelsk", 10, 100, Ansatte.First(a => a.AnsattId == 501), out _);
-        Universitet.OpprettKurs("IS-110", "Programmering", 10, 100, Ansatte.First(a => a.AnsattId == 502), out _);
+        OpprettKurs("EN-168", "Engelsk", 10, 100, Ansatte.First(a => a.AnsattId == 501), out _);
+        OpprettKurs("IS-110", "Programmering", 10, 100, Ansatte.First(a => a.AnsattId == 502), out _);
 
-        Universitet.MeldStudentTilKurs(Studenter[0], "IS-110", out _);
-        Universitet.MeldStudentTilKurs(Studenter[1], "IS-110", out _);
-        Universitet.MeldStudentTilKurs(Studenter[2], "EN-168", out _);
+        MeldStudentTilKurs(Studenter[0], "IS-110", out _);
+        MeldStudentTilKurs(Studenter[1], "IS-110", out _);
+        MeldStudentTilKurs(Studenter[2], "EN-168", out _);
 
         Bibliotek.RegistrerBok(new Bok(1001, "1984", "George Orwell", 1949, 3));
         Bibliotek.RegistrerBok(new Bok(1002, "Ulysses", "James Joyce", 1920, 2));
@@ -116,7 +115,7 @@ internal class Program
             return null;
         }
 
-        Console.WriteLine($"Innlogging vellykket. Velkommen {bruker.Navn} ({bruker.Rolle}).");
+        Console.WriteLine($"Innlogging vellykket! Velkommen {bruker.Navn} ({bruker.Rolle}).");
         return bruker;
     }
 
@@ -196,12 +195,12 @@ internal class Program
     private static bool KjorStudentMeny(Student student)
     {
         Console.WriteLine("Studentmeny:");
-        Console.WriteLine("[1] Meld deg pa kurs");
+        Console.WriteLine("[1] Meld deg på kurs");
         Console.WriteLine("[2] Meld deg av kurs");
         Console.WriteLine("[3] Se mine kurs");
         Console.WriteLine("[4] Se mine karakterer");
-        Console.WriteLine("[5] Sok pa bok");
-        Console.WriteLine("[6] Lan bok");
+        Console.WriteLine("[5] Søk på bok");
+        Console.WriteLine("[6] Lån bok");
         Console.WriteLine("[7] Returner bok");
         Console.WriteLine("[0] Logg ut");
 
@@ -243,9 +242,9 @@ internal class Program
     {
         Console.WriteLine($"Bibliotekarmeny ({bibliotekar.Navn}):");
         Console.WriteLine("[1] Registrer bok");
-        Console.WriteLine("[2] Se aktive lan");
-        Console.WriteLine("[3] Se lanehistorikk");
-        Console.WriteLine("[4] Sok pa bok");
+        Console.WriteLine("[2] Se aktive lån");
+        Console.WriteLine("[3] Se lånehistorikk");
+        Console.WriteLine("[4] Søk på bok");
         Console.WriteLine("[0] Logg ut");
 
         string? valg = Console.ReadLine();
@@ -277,9 +276,9 @@ internal class Program
     {
         Console.WriteLine($"Professormeny ({professor.Navn}):");
         Console.WriteLine("[1] Opprett kurs");
-        Console.WriteLine("[2] Sok pa kurs");
-        Console.WriteLine("[3] Sok pa bok");
-        Console.WriteLine("[4] Lan bok");
+        Console.WriteLine("[2] Søk på kurs");
+        Console.WriteLine("[3] Søk på bok");
+        Console.WriteLine("[4] Lån bok");
         Console.WriteLine("[5] Returner bok");
         Console.WriteLine("[6] Sett karakter");
         Console.WriteLine("[7] Registrer pensum");
@@ -330,14 +329,14 @@ internal class Program
         int studiepoeng = LesPositivInt("Studiepoeng: ");
         int maksPlasser = LesPositivInt("Maks antall plasser: ");
 
-        Universitet.OpprettKurs(kode, navn, studiepoeng, maksPlasser, professor, out string melding);
+        OpprettKurs(kode, navn, studiepoeng, maksPlasser, professor, out string melding);
         Console.WriteLine(melding);
     }
 
     private static void SokPaKurs()
     {
         string sok = LesPaakrevdTekst("Skriv kode eller navn: ");
-        List<Kurs> treff = Universitet.SokKurs(sok);
+        List<Kurs> treff = SokKurs(sok);
 
         if (!treff.Any())
         {
@@ -354,14 +353,14 @@ internal class Program
     private static void MeldInnStudent(Student student)
     {
         string kurskode = LesPaakrevdTekst("Kurskode: ");
-        Universitet.MeldStudentTilKurs(student, kurskode, out string melding);
+        MeldStudentTilKurs(student, kurskode, out string melding);
         Console.WriteLine(melding);
     }
 
     private static void MeldAvStudent(Student student)
     {
         string kurskode = LesPaakrevdTekst("Kurskode: ");
-        Universitet.MeldStudentAvKurs(student, kurskode, out string melding);
+        MeldStudentAvKurs(student, kurskode, out string melding);
         Console.WriteLine(melding);
     }
 
@@ -373,7 +372,7 @@ internal class Program
 
         if (!mineKurs.Any())
         {
-            Console.WriteLine("Du er ikke meldt pa noen kurs.");
+            Console.WriteLine("Du er ikke meldt på kurs enda.");
             return;
         }
 
@@ -424,7 +423,7 @@ internal class Program
 
         if (!kurs.SettKarakter(studentId, karakter))
         {
-            Console.WriteLine("Kunne ikke sette karakter. Kontroller at studenten er meldt pa kurset.");
+            Console.WriteLine("Kunne ikke sette karakter. Kontroller at studenten er meldt på kurset.");
             return;
         }
 
@@ -501,7 +500,7 @@ internal class Program
 
     private static void SokPaBok()
     {
-        string sok = LesPaakrevdTekst("Sok etter tittel, forfatter eller id: ");
+        string sok = LesPaakrevdTekst("Søk etter tittel, forfatter eller id: ");
 
         Bok? bok = Bibliotek.SokBok(sok);
         if (bok is null)
@@ -516,7 +515,7 @@ internal class Program
 
     private static void LanBok(Bruker bruker)
     {
-        int bokId = LesPositivInt("Bok-ID som skal lanes: ");
+        int bokId = LesPositivInt("Bok-ID som skal lånes: ");
         Bibliotek.LanUtBok(bokId, bruker, out string melding);
         Console.WriteLine(melding);
     }
@@ -533,7 +532,7 @@ internal class Program
         List<Lan> aktiveLan = Bibliotek.HentAktiveLan().ToList();
         if (!aktiveLan.Any())
         {
-            Console.WriteLine("Ingen aktive lan.");
+            Console.WriteLine("Ingen aktive lån.");
             return;
         }
 
@@ -592,18 +591,8 @@ internal class Program
             Console.WriteLine("Feltet kan ikke vaere tomt.");
         }
     }
-}
 
-internal class UniversitetService
-{
-    private readonly List<Kurs> _kursListe;
-
-    public UniversitetService(List<Kurs> kursListe)
-    {
-        _kursListe = kursListe;
-    }
-
-    public bool OpprettKurs(
+    static bool OpprettKurs(
         string kurskode,
         string kursnavn,
         int studiepoeng,
@@ -629,7 +618,7 @@ internal class UniversitetService
             return false;
         }
 
-        bool finnesAllerede = _kursListe.Any(k =>
+        bool finnesAllerede = KursListe.Any(k =>
             k.KursKode.Equals(kurskode, StringComparison.OrdinalIgnoreCase) ||
             k.KursNavn.Equals(kursnavn, StringComparison.OrdinalIgnoreCase));
 
@@ -639,12 +628,12 @@ internal class UniversitetService
             return false;
         }
 
-        _kursListe.Add(new Kurs(kurskode.Trim(), kursnavn.Trim(), studiepoeng, maksPlasser, professor.AnsattId));
+        KursListe.Add(new Kurs(kurskode.Trim(), kursnavn.Trim(), studiepoeng, maksPlasser, professor.AnsattId));
         melding = "Kurs opprettet.";
         return true;
     }
 
-    public bool MeldStudentTilKurs(Student student, string kurskode, out string melding)
+    static bool MeldStudentTilKurs(Student student, string kurskode, out string melding)
     {
         if (string.IsNullOrWhiteSpace(kurskode))
         {
@@ -652,7 +641,7 @@ internal class UniversitetService
             return false;
         }
 
-        Kurs? kurs = _kursListe.FirstOrDefault(k =>
+        Kurs? kurs = KursListe.FirstOrDefault(k =>
             k.KursKode.Equals(kurskode.Trim(), StringComparison.OrdinalIgnoreCase));
 
         if (kurs is null)
@@ -677,9 +666,9 @@ internal class UniversitetService
         return true;
     }
 
-    public bool MeldStudentAvKurs(Student student, string kurskode, out string melding)
+    static bool MeldStudentAvKurs(Student student, string kurskode, out string melding)
     {
-        Kurs? kurs = _kursListe.FirstOrDefault(k =>
+        Kurs? kurs = KursListe.FirstOrDefault(k =>
             k.KursKode.Equals(kurskode.Trim(), StringComparison.OrdinalIgnoreCase));
 
         if (kurs is null)
@@ -698,14 +687,14 @@ internal class UniversitetService
         return true;
     }
 
-    public List<Kurs> SokKurs(string sok)
+    static List<Kurs> SokKurs(string sok)
     {
         if (string.IsNullOrWhiteSpace(sok))
         {
             return new List<Kurs>();
         }
 
-        return _kursListe.Where(k =>
+        return KursListe.Where(k =>
                 k.KursKode.Contains(sok, StringComparison.OrdinalIgnoreCase) ||
                 k.KursNavn.Contains(sok, StringComparison.OrdinalIgnoreCase))
             .ToList();
